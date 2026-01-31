@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ml5.js - Learns - Reese Highman</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <link rel="stylesheet" href="../learns.css">
+  <script src="https://cdn.jsdelivr.net/npm/p5@1.9.0/lib/p5.js"></script>
+  <script src="https://unpkg.com/ml5@1/dist/ml5.min.js"></script>
+</head>
+<body>
+
+  <nav class="learns-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-home">← Portfolio</a>
+      <a href="/learns/" class="nav-title">LEARNS</a>
+    </div>
+    <div class="nav-right">
+      <a href="#demo">Demo</a>
+      <a href="#code">Code</a>
+      <a href="#bridge">Connection</a>
+    </div>
+  </nav>
+
+  <div class="demo-page">
+    <header class="page-hero" style="padding-left:0;padding-right:0;text-align:left;">
+      <p class="demo-meta">CREATIVE / VISUAL</p>
+      <h1 style="background:linear-gradient(135deg, var(--color-accent-3), var(--color-accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">ml5.js</h1>
+      <p class="demo-description">ml5.js makes machine learning approachable for creative coders. It wraps TensorFlow.js (Google's ML library) in a friendly API designed to work with p5.js. You can detect body poses, classify images, generate text, recognize hand gestures, and more... all running right in the browser. No server, no Python, no PhD required.</p>
+    </header>
+
+    <section class="demo-section">
+      <h2>What People Make With It</h2>
+      <ul class="examples-list">
+        <li>Interactive installations where your body controls the visuals</li>
+        <li>Hand-tracking musical instruments you play with gestures</li>
+        <li>Art that responds to your facial expressions</li>
+        <li>Image classifiers that identify objects in real time</li>
+        <li>Creative tools that learn from your drawing style</li>
+        <li>Accessible interfaces controlled by body movement</li>
+      </ul>
+    </section>
+
+    <section id="demo" class="demo-section">
+      <h2>Try It: Body Pose Tracker</h2>
+      <p style="color:var(--color-text-muted);margin-bottom:1rem;">This uses your webcam to detect body poses in real time. The skeleton is drawn with p5.js. Move around and watch it follow you. (Your video stays in your browser, nothing is sent anywhere.)</p>
+
+      <div class="demo-container">
+        <div class="demo-container-header">
+          <div class="demo-dots"><span></span><span></span><span></span></div>
+          <span>pose-tracker.js</span>
+        </div>
+        <div class="demo-canvas" id="ml5-canvas" style="flex-direction:column;min-height:480px;">
+          <div id="status-msg" style="font-family:var(--font-mono);font-size:0.85rem;color:var(--color-accent-2);padding:1rem;text-align:center;">
+            Click "Start Camera" to begin. Your webcam feed stays local, nothing leaves your browser.
+          </div>
+          <div id="canvas-holder" style="display:none;"></div>
+          <button class="control-btn" id="btn-start-cam" style="margin:1rem auto;font-size:0.9rem;padding:0.75rem 1.5rem;">Start Camera</button>
+        </div>
+        <div class="demo-controls">
+          <div class="control-group">
+            <label>Skeleton Color</label>
+            <select id="ctrl-skeletonColor" style="font-family:var(--font-mono);font-size:0.75rem;background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-accent-light);border-radius:4px;padding:0.3rem;">
+              <option value="warm">Warm (Orange/Red)</option>
+              <option value="cool">Cool (Blue/Teal)</option>
+              <option value="neon">Neon (Green)</option>
+              <option value="white">White</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label>Point Size</label>
+            <input type="range" id="ctrl-pointSize" min="4" max="20" value="10" step="1">
+          </div>
+          <div class="control-group">
+            <label>Show Video</label>
+            <input type="checkbox" id="ctrl-showVideo" checked>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="code" class="demo-section">
+      <h2>The Code</h2>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span>pose-tracker.js</span>
+        </div>
+        <pre><code><span class="kw">let</span> video, bodyPose, poses = [];
+<span class="kw">let</span> pointSize = <span class="num">10</span>;
+
+<span class="cm">// p5.js setup: create canvas and start webcam</span>
+<span class="kw">function</span> <span class="fn">setup</span>() {
+  <span class="fn">createCanvas</span>(<span class="num">640</span>, <span class="num">480</span>);
+  video = <span class="fn">createCapture</span>(VIDEO);
+  video.<span class="fn">hide</span>();
+
+  <span class="cm">// Initialize ml5 body pose detection</span>
+  bodyPose = ml5.<span class="fn">bodyPose</span>(video, () => {
+    console.<span class="fn">log</span>(<span class="str">"Model loaded!"</span>);
+  });
+
+  <span class="cm">// When poses are detected, update our array</span>
+  bodyPose.<span class="fn">detectStart</span>(video, results => {
+    poses = results;
+  });
+}
+
+<span class="kw">function</span> <span class="fn">draw</span>() {
+  <span class="fn">image</span>(video, <span class="num">0</span>, <span class="num">0</span>);
+
+  <span class="cm">// Draw each detected pose</span>
+  <span class="kw">for</span> (<span class="kw">let</span> pose <span class="kw">of</span> poses) {
+    <span class="cm">// Draw skeleton connections</span>
+    <span class="kw">for</span> (<span class="kw">let</span> connection <span class="kw">of</span> bodyPose.getSkeleton()) {
+      <span class="fn">stroke</span>(<span class="num">249</span>, <span class="num">66</span>, <span class="num">58</span>);
+      <span class="fn">strokeWeight</span>(<span class="num">2</span>);
+      <span class="fn">line</span>(connection[<span class="num">0</span>].x, connection[<span class="num">0</span>].y,
+           connection[<span class="num">1</span>].x, connection[<span class="num">1</span>].y);
+    }
+
+    <span class="cm">// Draw keypoints (joints)</span>
+    <span class="kw">for</span> (<span class="kw">let</span> kp <span class="kw">of</span> pose.keypoints) {
+      <span class="kw">if</span> (kp.confidence > <span class="num">0.3</span>) {
+        <span class="fn">fill</span>(<span class="num">237</span>, <span class="num">139</span>, <span class="num">0</span>);
+        <span class="fn">noStroke</span>();
+        <span class="fn">circle</span>(kp.x, kp.y, pointSize);
+      }
+    }
+  }
+}</code></pre>
+      </div>
+    </section>
+
+    <section id="bridge" class="bridge-section">
+      <h3>How It Connects to p5.js</h3>
+      <p>ml5.js was literally designed to work with p5.js. They share the same philosophy: make powerful technology accessible to creative people. The demo above uses p5.js for the canvas, the webcam capture, and all the drawing. ml5 just adds the intelligence layer on top. The pose data you get back? It's just arrays of x, y coordinates and confidence scores. You already know how to work with those in p5.js. The magic is that now those coordinates come from a neural network analyzing video in real time. Same drawing skills, wildly different input.</p>
+    </section>
+  </div>
+
+  <footer class="learns-footer">
+    <p><a href="/learns/">← Back to Learns</a> · <a href="/">Portfolio</a></p>
+  </footer>
+
+  <script>
+    let video, bodyPose, poses = [];
+    let pointSize = 10;
+    let showVideo = true;
+    let skeletonColor = 'warm';
+    let cameraStarted = false;
+
+    const colorSchemes = {
+      warm: { line: [249, 66, 58], point: [237, 139, 0] },
+      cool: { line: [187, 221, 230], point: [29, 60, 52] },
+      neon: { line: [0, 255, 100], point: [0, 200, 255] },
+      white: { line: [239, 232, 212], point: [255, 255, 255] },
+    };
+
+    document.getElementById('ctrl-skeletonColor').addEventListener('change', e => {
+      skeletonColor = e.target.value;
+    });
+    document.getElementById('ctrl-pointSize').addEventListener('input', e => {
+      pointSize = parseInt(e.target.value);
+    });
+    document.getElementById('ctrl-showVideo').addEventListener('change', e => {
+      showVideo = e.target.checked;
+    });
+
+    document.getElementById('btn-start-cam').addEventListener('click', () => {
+      if (cameraStarted) return;
+      cameraStarted = true;
+      document.getElementById('btn-start-cam').style.display = 'none';
+      document.getElementById('status-msg').textContent = 'Loading model... this might take a moment.';
+      document.getElementById('canvas-holder').style.display = 'block';
+      initSketch();
+    });
+
+    function initSketch() {
+      new p5(function(p) {
+        p.setup = function() {
+          const container = document.getElementById('canvas-holder');
+          const w = Math.min(640, container.parentElement.offsetWidth - 20);
+          const h = Math.floor(w * 0.75);
+          let cnv = p.createCanvas(w, h);
+          cnv.parent('canvas-holder');
+
+          video = p.createCapture(p.VIDEO, { flipped: true });
+          video.size(w, h);
+          video.hide();
+
+          bodyPose = ml5.bodyPose(video.elt, { flipped: true }, () => {
+            document.getElementById('status-msg').textContent = 'Model loaded. Move around!';
+          });
+
+          bodyPose.detectStart(video.elt, results => {
+            poses = results;
+          });
+        };
+
+        p.draw = function() {
+          if (showVideo && video) {
+            p.push();
+            p.translate(p.width, 0);
+            p.scale(-1, 1);
+            p.image(video, 0, 0, p.width, p.height);
+            p.pop();
+          } else {
+            p.background(42, 0, 18);
+          }
+
+          const colors = colorSchemes[skeletonColor];
+
+          for (let pose of poses) {
+            // Draw skeleton
+            if (pose.skeleton) {
+              for (let connection of pose.skeleton) {
+                let [a, b] = connection;
+                if (a.confidence > 0.3 && b.confidence > 0.3) {
+                  p.stroke(colors.line[0], colors.line[1], colors.line[2]);
+                  p.strokeWeight(3);
+                  p.line(a.x, a.y, b.x, b.y);
+                }
+              }
+            }
+
+            // Draw keypoints
+            if (pose.keypoints) {
+              for (let kp of pose.keypoints) {
+                if (kp.confidence > 0.3) {
+                  p.fill(colors.point[0], colors.point[1], colors.point[2]);
+                  p.noStroke();
+                  p.circle(kp.x, kp.y, pointSize);
+                }
+              }
+            }
+          }
+        };
+
+        p.windowResized = function() {
+          const container = document.getElementById('canvas-holder');
+          const w = Math.min(640, container.parentElement.offsetWidth - 20);
+          const h = Math.floor(w * 0.75);
+          p.resizeCanvas(w, h);
+        };
+      });
+    }
+  </script>
+</body>
+</html>

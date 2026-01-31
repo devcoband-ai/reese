@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GSAP - Learns - Reese Highman</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <link rel="stylesheet" href="../learns.css">
+  <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+</head>
+<body>
+
+  <nav class="learns-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-home">← Portfolio</a>
+      <a href="/learns/" class="nav-title">LEARNS</a>
+    </div>
+    <div class="nav-right">
+      <a href="#demo">Demo</a>
+      <a href="#code">Code</a>
+      <a href="#bridge">Connection</a>
+    </div>
+  </nav>
+
+  <div class="demo-page">
+    <header class="page-hero" style="padding-left:0;padding-right:0;text-align:left;">
+      <p class="demo-meta">CREATIVE / VISUAL</p>
+      <h1 style="background:linear-gradient(135deg, var(--color-accent-3), var(--color-accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">GSAP</h1>
+      <p class="demo-description">GSAP (GreenSock Animation Platform) is the animation library that professionals reach for when CSS animations aren't enough. It can animate anything: DOM elements, SVG paths, canvas objects, colors, numbers... basically any JavaScript property. It's what makes those jaw-dropping, buttery-smooth website animations you see on award-winning sites. And it's surprisingly friendly to learn.</p>
+    </header>
+
+    <section class="demo-section">
+      <h2>What People Make With It</h2>
+      <ul class="examples-list">
+        <li>Scroll-triggered animations on storytelling websites</li>
+        <li>Complex UI transitions and micro-interactions</li>
+        <li>SVG morphing (one shape melting into another)</li>
+        <li>Animated text reveals, staggered entrances, parallax effects</li>
+        <li>Most of the sites that win <a href="https://www.awwwards.com" target="_blank">Awwwards</a> use GSAP somewhere</li>
+      </ul>
+    </section>
+
+    <section id="demo" class="demo-section">
+      <h2>Try It: Animation Playground</h2>
+      <p style="color:var(--color-text-muted);margin-bottom:1rem;">Hit the buttons to trigger different animation sequences. Each one chains together multiple GSAP tweens.</p>
+
+      <div class="demo-container">
+        <div class="demo-container-header">
+          <div class="demo-dots"><span></span><span></span><span></span></div>
+          <span>animations.js</span>
+        </div>
+        <div class="demo-canvas" style="min-height:400px;position:relative;overflow:hidden;" id="gsap-stage">
+          <div id="shape-1" style="position:absolute;width:60px;height:60px;border-radius:8px;background:var(--color-accent-light);top:170px;left:80px;"></div>
+          <div id="shape-2" style="position:absolute;width:50px;height:50px;border-radius:50%;background:var(--color-accent-2);top:175px;left:200px;"></div>
+          <div id="shape-3" style="position:absolute;width:70px;height:40px;border-radius:20px;background:var(--color-accent-3);top:180px;left:320px;"></div>
+          <div id="shape-4" style="position:absolute;width:45px;height:45px;border-radius:4px;background:var(--color-green);top:177px;left:450px;transform:rotate(45deg);"></div>
+          <div id="shape-5" style="position:absolute;width:55px;height:55px;border-radius:50%;background:#DFD1A7;top:172px;left:570px;"></div>
+
+          <div id="gsap-text" style="position:absolute;bottom:40px;left:0;right:0;text-align:center;font-family:'Space Mono',monospace;font-size:1.5rem;color:var(--color-accent-2);opacity:0;">
+            GSAP makes this easy ✦
+          </div>
+        </div>
+        <div class="demo-controls" style="flex-wrap:wrap;">
+          <button class="control-btn" id="btn-bounce">Bounce</button>
+          <button class="control-btn" id="btn-scatter">Scatter</button>
+          <button class="control-btn" id="btn-spin">Spin</button>
+          <button class="control-btn" id="btn-wave">Wave</button>
+          <button class="control-btn" id="btn-morph">Morph</button>
+          <button class="control-btn" id="btn-reset">Reset</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="code" class="demo-section">
+      <h2>The Code</h2>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span>animations.js</span>
+        </div>
+        <pre><code><span class="cm">// GSAP makes complex animations readable</span>
+<span class="kw">const</span> shapes = [<span class="str">"#shape-1"</span>, <span class="str">"#shape-2"</span>, <span class="str">"#shape-3"</span>, <span class="str">"#shape-4"</span>, <span class="str">"#shape-5"</span>];
+
+<span class="cm">// Bounce: staggered bounce animation</span>
+gsap.<span class="fn">to</span>(shapes, {
+  y: -<span class="num">150</span>,
+  duration: <span class="num">0.6</span>,
+  ease: <span class="str">"power2.out"</span>,
+  stagger: <span class="num">0.1</span>,       <span class="cm">// each starts 0.1s after the last</span>
+  yoyo: <span class="num">true</span>,          <span class="cm">// bounce back</span>
+  repeat: <span class="num">1</span>,
+});
+
+<span class="cm">// Scatter: fly to random positions</span>
+shapes.<span class="fn">forEach</span>(s => {
+  gsap.<span class="fn">to</span>(s, {
+    x: <span class="fn">random</span>(-<span class="num">200</span>, <span class="num">200</span>),
+    y: <span class="fn">random</span>(-<span class="num">150</span>, <span class="num">150</span>),
+    rotation: <span class="fn">random</span>(-<span class="num">360</span>, <span class="num">360</span>),
+    duration: <span class="num">1</span>,
+    ease: <span class="str">"elastic.out(1, 0.5)"</span>,
+  });
+});
+
+<span class="cm">// Wave: staggered sine-wave motion</span>
+gsap.<span class="fn">to</span>(shapes, {
+  y: -<span class="num">100</span>,
+  duration: <span class="num">0.8</span>,
+  ease: <span class="str">"sine.inOut"</span>,
+  stagger: { each: <span class="num">0.15</span>, repeat: -<span class="num">1</span>, yoyo: <span class="num">true</span> },
+});
+
+<span class="cm">// Morph: change shape, color, and size simultaneously</span>
+gsap.<span class="fn">to</span>(<span class="str">"#shape-1"</span>, {
+  borderRadius: <span class="str">"50%"</span>,
+  width: <span class="num">80</span>,
+  height: <span class="num">80</span>,
+  backgroundColor: <span class="str">"#BBDDE6"</span>,
+  rotation: <span class="num">180</span>,
+  duration: <span class="num">1</span>,
+  ease: <span class="str">"back.inOut(1.7)"</span>,
+});</code></pre>
+      </div>
+    </section>
+
+    <section id="bridge" class="bridge-section">
+      <h3>How It Connects to p5.js</h3>
+      <p>In p5.js, when you want to animate something, you manually update values each frame in <code>draw()</code>. Something like <code>x += speed</code> or using <code>lerp()</code> to smooth things out. GSAP automates all of that. Instead of calculating positions frame by frame, you say "move this thing to there over 1 second with this easing" and GSAP handles every frame. It's like having a really smart animation assistant. The concepts are the same (position, rotation, scale, timing), but GSAP gives you easing curves, stagger effects, and timeline sequencing out of the box. You could absolutely use GSAP inside a p5.js project too.</p>
+    </section>
+  </div>
+
+  <footer class="learns-footer">
+    <p><a href="/learns/">← Back to Learns</a> · <a href="/">Portfolio</a></p>
+  </footer>
+
+  <script>
+    const shapes = ['#shape-1', '#shape-2', '#shape-3', '#shape-4', '#shape-5'];
+    const textEl = '#gsap-text';
+
+    function resetAll() {
+      gsap.killTweensOf(shapes.join(','));
+      gsap.killTweensOf(textEl);
+      gsap.to(shapes, {
+        x: 0, y: 0, rotation: 0, scale: 1,
+        borderRadius: (i) => ['8px', '50%', '20px', '4px', '50%'][i],
+        width: (i) => [60, 50, 70, 45, 55][i],
+        height: (i) => [60, 50, 40, 45, 55][i],
+        backgroundColor: (i) => ['#F9423A', '#ED8B00', '#BBDDE6', '#1D3C34', '#DFD1A7'][i],
+        duration: 0.5,
+        ease: 'power2.inOut'
+      });
+      gsap.to(textEl, { opacity: 0, y: 0, duration: 0.3 });
+    }
+
+    function showText() {
+      gsap.fromTo(textEl, { opacity: 0, y: 20 }, { opacity: 1, y: 0, duration: 0.6, delay: 0.5 });
+    }
+
+    // Bounce
+    document.getElementById('btn-bounce').addEventListener('click', () => {
+      resetAll();
+      setTimeout(() => {
+        gsap.to(shapes, {
+          y: -150,
+          duration: 0.6,
+          ease: 'power2.out',
+          stagger: 0.1,
+          yoyo: true,
+          repeat: 1
+        });
+        showText();
+      }, 600);
+    });
+
+    // Scatter
+    document.getElementById('btn-scatter').addEventListener('click', () => {
+      resetAll();
+      setTimeout(() => {
+        shapes.forEach(s => {
+          gsap.to(s, {
+            x: gsap.utils.random(-200, 200),
+            y: gsap.utils.random(-150, 150),
+            rotation: gsap.utils.random(-360, 360),
+            scale: gsap.utils.random(0.5, 2),
+            duration: 1,
+            ease: 'elastic.out(1, 0.5)'
+          });
+        });
+        showText();
+      }, 600);
+    });
+
+    // Spin
+    document.getElementById('btn-spin').addEventListener('click', () => {
+      resetAll();
+      setTimeout(() => {
+        gsap.to(shapes, {
+          rotation: 720,
+          scale: 1.3,
+          duration: 1.5,
+          ease: 'power4.inOut',
+          stagger: { each: 0.08, from: 'center' },
+          yoyo: true,
+          repeat: 1
+        });
+        showText();
+      }, 600);
+    });
+
+    // Wave
+    document.getElementById('btn-wave').addEventListener('click', () => {
+      resetAll();
+      setTimeout(() => {
+        gsap.to(shapes, {
+          y: -120,
+          duration: 0.8,
+          ease: 'sine.inOut',
+          stagger: { each: 0.15, repeat: 5, yoyo: true }
+        });
+        showText();
+      }, 600);
+    });
+
+    // Morph
+    document.getElementById('btn-morph').addEventListener('click', () => {
+      resetAll();
+      setTimeout(() => {
+        const morphColors = ['#BBDDE6', '#F9423A', '#ED8B00', '#DFD1A7', '#1D3C34'];
+        gsap.to(shapes, {
+          borderRadius: '50%',
+          width: 70,
+          height: 70,
+          backgroundColor: (i) => morphColors[i],
+          rotation: 180,
+          duration: 1,
+          ease: 'back.inOut(1.7)',
+          stagger: 0.12
+        });
+        showText();
+      }, 600);
+    });
+
+    // Reset
+    document.getElementById('btn-reset').addEventListener('click', resetAll);
+  </script>
+</body>
+</html>

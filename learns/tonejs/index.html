@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tone.js - Learns - Reese Highman</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <link rel="stylesheet" href="../learns.css">
+  <script src="https://cdn.jsdelivr.net/npm/tone@14.7.77/build/Tone.js"></script>
+</head>
+<body>
+
+  <nav class="learns-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-home">← Portfolio</a>
+      <a href="/learns/" class="nav-title">LEARNS</a>
+    </div>
+    <div class="nav-right">
+      <a href="#demo">Demo</a>
+      <a href="#code">Code</a>
+      <a href="#bridge">Connection</a>
+    </div>
+  </nav>
+
+  <div class="demo-page">
+    <header class="page-hero" style="padding-left:0;padding-right:0;text-align:left;">
+      <p class="demo-meta">CREATIVE / VISUAL</p>
+      <h1 style="background:linear-gradient(135deg, var(--color-accent-3), var(--color-accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Tone.js</h1>
+      <p class="demo-description">Tone.js turns your browser into a synthesizer, a drum machine, a music production tool. It's built on top of the Web Audio API (which is powerful but complicated) and makes sound synthesis, effects, and sequencing genuinely approachable. You can build instruments, generative music, sound installations, or just make cool noises. All in JavaScript.</p>
+    </header>
+
+    <section class="demo-section">
+      <h2>What People Make With It</h2>
+      <ul class="examples-list">
+        <li>Browser-based synthesizers and drum machines</li>
+        <li>Generative music that composes itself</li>
+        <li>Interactive sound installations in galleries</li>
+        <li>Music visualizers that respond to audio in real time</li>
+        <li>Audio-reactive art paired with p5.js</li>
+        <li>Educational tools for learning music theory</li>
+      </ul>
+    </section>
+
+    <section id="demo" class="demo-section">
+      <h2>Try It: Mini Synth</h2>
+      <p style="color:var(--color-text-muted);margin-bottom:1rem;">Click the keys or use your keyboard (A-S-D-F-G-H-J for white keys, W-E-T-Y-U for black keys). Tweak the sound with the controls below.</p>
+
+      <div class="demo-container">
+        <div class="demo-container-header">
+          <div class="demo-dots"><span></span><span></span><span></span></div>
+          <span>synth.js</span>
+        </div>
+        <div class="demo-canvas" style="min-height:auto;background:linear-gradient(to bottom, rgba(0,0,0,0.3), rgba(42,0,18,0.5));">
+          <div id="start-audio" style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:10;display:none;">
+            <button class="control-btn" style="font-size:1rem;padding:1rem 2rem;" id="btn-start">Click to Enable Sound</button>
+          </div>
+          <div class="keyboard" id="keyboard">
+            <div class="key white" data-note="C4">A<br>C</div>
+            <div class="key black" data-note="C#4">W<br>C#</div>
+            <div class="key white" data-note="D4">S<br>D</div>
+            <div class="key black" data-note="D#4">E<br>D#</div>
+            <div class="key white" data-note="E4">D<br>E</div>
+            <div class="key white" data-note="F4">F<br>F</div>
+            <div class="key black" data-note="F#4">T<br>F#</div>
+            <div class="key white" data-note="G4">G<br>G</div>
+            <div class="key black" data-note="G#4">Y<br>G#</div>
+            <div class="key white" data-note="A4">H<br>A</div>
+            <div class="key black" data-note="A#4">U<br>A#</div>
+            <div class="key white" data-note="B4">J<br>B</div>
+          </div>
+        </div>
+        <div class="demo-controls">
+          <div class="control-group">
+            <label>Waveform</label>
+            <select id="ctrl-wave" style="font-family:var(--font-mono);font-size:0.75rem;background:var(--color-bg);color:var(--color-text);border:1px solid var(--color-accent-light);border-radius:4px;padding:0.3rem;">
+              <option value="triangle">Triangle</option>
+              <option value="sine">Sine</option>
+              <option value="square">Square</option>
+              <option value="sawtooth">Sawtooth</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label>Attack</label>
+            <input type="range" id="ctrl-attack" min="0.01" max="1" value="0.05" step="0.01">
+          </div>
+          <div class="control-group">
+            <label>Release</label>
+            <input type="range" id="ctrl-release" min="0.05" max="3" value="0.8" step="0.05">
+          </div>
+          <div class="control-group">
+            <label>Reverb</label>
+            <input type="range" id="ctrl-reverb" min="0" max="1" value="0.3" step="0.05">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="code" class="demo-section">
+      <h2>The Code</h2>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span>synth.js</span>
+        </div>
+        <pre><code><span class="cm">// Create a synth with effects</span>
+<span class="kw">const</span> reverb = <span class="kw">new</span> Tone.<span class="fn">Reverb</span>(<span class="num">2</span>).<span class="fn">toDestination</span>();
+reverb.wet.value = <span class="num">0.3</span>;
+
+<span class="kw">const</span> synth = <span class="kw">new</span> Tone.<span class="fn">PolySynth</span>(Tone.Synth, {
+  oscillator: { type: <span class="str">"triangle"</span> },
+  envelope: {
+    attack: <span class="num">0.05</span>,
+    decay: <span class="num">0.2</span>,
+    sustain: <span class="num">0.5</span>,
+    release: <span class="num">0.8</span>,
+  }
+}).<span class="fn">connect</span>(reverb);
+
+<span class="cm">// Map keyboard keys to musical notes</span>
+<span class="kw">const</span> keyMap = {
+  <span class="str">"a"</span>: <span class="str">"C4"</span>,
+  <span class="str">"w"</span>: <span class="str">"C#4"</span>,
+  <span class="str">"s"</span>: <span class="str">"D4"</span>,
+  <span class="str">"e"</span>: <span class="str">"D#4"</span>,
+  <span class="str">"d"</span>: <span class="str">"E4"</span>,
+  <span class="str">"f"</span>: <span class="str">"F4"</span>,
+  <span class="str">"t"</span>: <span class="str">"F#4"</span>,
+  <span class="str">"g"</span>: <span class="str">"G4"</span>,
+  <span class="str">"y"</span>: <span class="str">"G#4"</span>,
+  <span class="str">"h"</span>: <span class="str">"A4"</span>,
+  <span class="str">"u"</span>: <span class="str">"A#4"</span>,
+  <span class="str">"j"</span>: <span class="str">"B4"</span>,
+};
+
+<span class="cm">// Play a note when key is pressed</span>
+document.<span class="fn">addEventListener</span>(<span class="str">"keydown"</span>, e => {
+  <span class="kw">const</span> note = keyMap[e.key];
+  <span class="kw">if</span> (note) synth.<span class="fn">triggerAttack</span>(note);
+});
+
+<span class="cm">// Release when key is up</span>
+document.<span class="fn">addEventListener</span>(<span class="str">"keyup"</span>, e => {
+  <span class="kw">const</span> note = keyMap[e.key];
+  <span class="kw">if</span> (note) synth.<span class="fn">triggerRelease</span>(note);
+});</code></pre>
+      </div>
+    </section>
+
+    <section id="bridge" class="bridge-section">
+      <h3>How It Connects to p5.js</h3>
+      <p>p5.js has its own sound library (p5.sound) that handles basic audio playback and analysis. Tone.js is like the pro upgrade. It gives you synthesis, effects chains, scheduling, and way more control. But the concepts are similar: oscillators make waves, envelopes shape those waves over time, and you trigger things in response to events. You can even use Tone.js alongside p5.js to create audio-reactive visuals, where the shapes and colors on screen respond to the sounds being played. That combination (p5 for visuals, Tone for sound) is one of the most powerful creative coding setups you can build.</p>
+    </section>
+  </div>
+
+  <footer class="learns-footer">
+    <p><a href="/learns/">← Back to Learns</a> · <a href="/">Portfolio</a></p>
+  </footer>
+
+  <script>
+    let audioStarted = false;
+    let synth, reverb;
+
+    const keyMap = {
+      'a': 'C4', 'w': 'C#4', 's': 'D4', 'e': 'D#4',
+      'd': 'E4', 'f': 'F4', 't': 'F#4', 'g': 'G4',
+      'y': 'G#4', 'h': 'A4', 'u': 'A#4', 'j': 'B4'
+    };
+
+    async function startAudio() {
+      if (audioStarted) return;
+      await Tone.start();
+      audioStarted = true;
+
+      reverb = new Tone.Reverb(2).toDestination();
+      reverb.wet.value = 0.3;
+
+      synth = new Tone.PolySynth(Tone.Synth, {
+        oscillator: { type: 'triangle' },
+        envelope: {
+          attack: 0.05,
+          decay: 0.2,
+          sustain: 0.5,
+          release: 0.8
+        }
+      }).connect(reverb);
+
+      document.getElementById('start-audio').style.display = 'none';
+    }
+
+    // Show start button (browsers require user gesture for audio)
+    document.getElementById('start-audio').style.display = 'block';
+    document.getElementById('btn-start').addEventListener('click', startAudio);
+
+    function playNote(note) {
+      if (!audioStarted) startAudio();
+      if (synth) synth.triggerAttack(note);
+    }
+
+    function stopNote(note) {
+      if (synth) synth.triggerRelease(note);
+    }
+
+    // Keyboard input
+    const activeKeys = new Set();
+
+    document.addEventListener('keydown', e => {
+      if (activeKeys.has(e.key)) return;
+      const note = keyMap[e.key.toLowerCase()];
+      if (note) {
+        activeKeys.add(e.key);
+        playNote(note);
+        highlightKey(note, true);
+      }
+    });
+
+    document.addEventListener('keyup', e => {
+      activeKeys.delete(e.key);
+      const note = keyMap[e.key.toLowerCase()];
+      if (note) {
+        stopNote(note);
+        highlightKey(note, false);
+      }
+    });
+
+    // Mouse/touch input on keyboard
+    const keys = document.querySelectorAll('.key');
+    keys.forEach(key => {
+      const note = key.dataset.note;
+
+      key.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        playNote(note);
+        key.classList.add('active');
+      });
+
+      key.addEventListener('mouseup', () => {
+        stopNote(note);
+        key.classList.remove('active');
+      });
+
+      key.addEventListener('mouseleave', () => {
+        stopNote(note);
+        key.classList.remove('active');
+      });
+
+      key.addEventListener('touchstart', (e) => {
+        e.preventDefault();
+        playNote(note);
+        key.classList.add('active');
+      });
+
+      key.addEventListener('touchend', () => {
+        stopNote(note);
+        key.classList.remove('active');
+      });
+    });
+
+    function highlightKey(note, on) {
+      const key = document.querySelector(`.key[data-note="${note}"]`);
+      if (key) {
+        if (on) key.classList.add('active');
+        else key.classList.remove('active');
+      }
+    }
+
+    // Controls
+    document.getElementById('ctrl-wave').addEventListener('change', e => {
+      if (synth) {
+        synth.set({ oscillator: { type: e.target.value } });
+      }
+    });
+
+    document.getElementById('ctrl-attack').addEventListener('input', e => {
+      if (synth) synth.set({ envelope: { attack: parseFloat(e.target.value) } });
+    });
+
+    document.getElementById('ctrl-release').addEventListener('input', e => {
+      if (synth) synth.set({ envelope: { release: parseFloat(e.target.value) } });
+    });
+
+    document.getElementById('ctrl-reverb').addEventListener('input', e => {
+      if (reverb) reverb.wet.value = parseFloat(e.target.value);
+    });
+  </script>
+</body>
+</html>

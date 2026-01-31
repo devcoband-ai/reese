@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>D3.js - Learns - Reese Highman</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <link rel="stylesheet" href="../learns.css">
+  <script src="https://cdn.jsdelivr.net/npm/d3@7"></script>
+</head>
+<body>
+
+  <nav class="learns-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-home">← Portfolio</a>
+      <a href="/learns/" class="nav-title">LEARNS</a>
+    </div>
+    <div class="nav-right">
+      <a href="#demo">Demo</a>
+      <a href="#code">Code</a>
+      <a href="#bridge">Connection</a>
+    </div>
+  </nav>
+
+  <div class="demo-page">
+    <header class="page-hero" style="padding-left:0;padding-right:0;text-align:left;">
+      <p class="demo-meta">CREATIVE / VISUAL</p>
+      <h1 style="background:linear-gradient(135deg, var(--color-accent-3), var(--color-accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">D3.js</h1>
+      <p class="demo-description">D3 stands for "Data-Driven Documents." It's a JavaScript library that binds data to visual elements and lets you build any visualization you can imagine. Bar charts, yes. But also force-directed networks, animated maps, treemaps, arc diagrams, and things that don't have names yet. D3 doesn't give you pre-made charts. It gives you the building blocks to invent your own.</p>
+    </header>
+
+    <section class="demo-section">
+      <h2>What People Make With It</h2>
+      <ul class="examples-list">
+        <li>The New York Times uses D3 for almost all their interactive data stories</li>
+        <li>Interactive election maps and real-time dashboards</li>
+        <li>Animated visualizations of climate data, migration patterns, music trends</li>
+        <li>Network graphs showing relationships between things (people, ideas, species)</li>
+        <li>Data art, where the line between chart and artwork disappears</li>
+      </ul>
+    </section>
+
+    <section id="demo" class="demo-section">
+      <h2>Try It: Art Supplies Force Graph</h2>
+      <p style="color:var(--color-text-muted);margin-bottom:1rem;">Drag the nodes around. Watch how they pull on each other. Click to add a random new connection.</p>
+
+      <div class="demo-container">
+        <div class="demo-container-header">
+          <div class="demo-dots"><span></span><span></span><span></span></div>
+          <span>force-graph.js</span>
+        </div>
+        <div class="demo-canvas">
+          <div class="force-container" id="d3-canvas"></div>
+        </div>
+        <div class="demo-controls">
+          <div class="control-group">
+            <label>Repulsion</label>
+            <input type="range" id="ctrl-charge" min="-500" max="-50" value="-200" step="10">
+          </div>
+          <div class="control-group">
+            <label>Link Distance</label>
+            <input type="range" id="ctrl-distance" min="30" max="200" value="80" step="5">
+          </div>
+          <button class="control-btn" id="btn-shuffle">Shuffle</button>
+        </div>
+      </div>
+    </section>
+
+    <section id="code" class="demo-section">
+      <h2>The Code</h2>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span>force-graph.js</span>
+        </div>
+        <pre><code><span class="cm">// Define our data: art supply categories and tools</span>
+<span class="kw">const</span> nodes = [
+  { id: <span class="str">"Drawing"</span>, group: <span class="num">0</span> },
+  { id: <span class="str">"Pencils"</span>, group: <span class="num">0</span> },
+  { id: <span class="str">"Charcoal"</span>, group: <span class="num">0</span> },
+  { id: <span class="str">"Digital"</span>, group: <span class="num">1</span> },
+  { id: <span class="str">"p5.js"</span>, group: <span class="num">1</span> },
+  <span class="cm">// ... more nodes</span>
+];
+
+<span class="kw">const</span> links = [
+  { source: <span class="str">"Drawing"</span>, target: <span class="str">"Pencils"</span> },
+  { source: <span class="str">"Digital"</span>, target: <span class="str">"p5.js"</span> },
+  <span class="cm">// ... more links</span>
+];
+
+<span class="cm">// Create the force simulation</span>
+<span class="kw">const</span> simulation = d3.<span class="fn">forceSimulation</span>(nodes)
+  .<span class="fn">force</span>(<span class="str">"link"</span>, d3.<span class="fn">forceLink</span>(links).<span class="fn">id</span>(d => d.id))
+  .<span class="fn">force</span>(<span class="str">"charge"</span>, d3.<span class="fn">forceManyBody</span>().<span class="fn">strength</span>(-<span class="num">200</span>))
+  .<span class="fn">force</span>(<span class="str">"center"</span>, d3.<span class="fn">forceCenter</span>(w / <span class="num">2</span>, h / <span class="num">2</span>));
+
+<span class="cm">// Draw links as lines</span>
+<span class="kw">const</span> link = svg.<span class="fn">selectAll</span>(<span class="str">"line"</span>)
+  .<span class="fn">data</span>(links).<span class="fn">join</span>(<span class="str">"line"</span>)
+  .<span class="fn">attr</span>(<span class="str">"stroke"</span>, <span class="str">"#ED8B00"</span>)
+  .<span class="fn">attr</span>(<span class="str">"stroke-opacity"</span>, <span class="num">0.3</span>);
+
+<span class="cm">// Draw nodes as circles</span>
+<span class="kw">const</span> node = svg.<span class="fn">selectAll</span>(<span class="str">"circle"</span>)
+  .<span class="fn">data</span>(nodes).<span class="fn">join</span>(<span class="str">"circle"</span>)
+  .<span class="fn">attr</span>(<span class="str">"r"</span>, <span class="num">12</span>)
+  .<span class="fn">attr</span>(<span class="str">"fill"</span>, d => colors[d.group])
+  .<span class="fn">call</span>(drag(simulation));
+
+<span class="cm">// Update positions each tick</span>
+simulation.<span class="fn">on</span>(<span class="str">"tick"</span>, () => {
+  link.<span class="fn">attr</span>(<span class="str">"x1"</span>, d => d.source.x)
+      .<span class="fn">attr</span>(<span class="str">"y1"</span>, d => d.source.y)
+      .<span class="fn">attr</span>(<span class="str">"x2"</span>, d => d.target.x)
+      .<span class="fn">attr</span>(<span class="str">"y2"</span>, d => d.target.y);
+  node.<span class="fn">attr</span>(<span class="str">"cx"</span>, d => d.x)
+      .<span class="fn">attr</span>(<span class="str">"cy"</span>, d => d.y);
+});</code></pre>
+      </div>
+    </section>
+
+    <section id="bridge" class="bridge-section">
+      <h3>How It Connects to p5.js</h3>
+      <p>In p5.js, you draw shapes by calling functions: <code>circle(x, y, r)</code>. D3 takes a different approach. Instead of drawing shapes directly, you bind data to DOM elements and let D3 figure out the drawing. It's a different mental model, but the core idea is the same: turn data into visuals. If you've ever used arrays in p5.js to hold a bunch of objects and loop through them to draw... that's basically what D3 does, just with a fancier data-binding system. The physics simulation in the demo above? It's the same kind of thing as particles with forces in p5.js.</p>
+    </section>
+  </div>
+
+  <footer class="learns-footer">
+    <p><a href="/learns/">← Back to Learns</a> · <a href="/">Portfolio</a></p>
+  </footer>
+
+  <script>
+    const container = document.getElementById('d3-canvas');
+    const w = container.offsetWidth;
+    const h = 450;
+
+    const colors = ['#F9423A', '#ED8B00', '#BBDDE6', '#1D3C34', '#70002e', '#DFD1A7'];
+
+    let nodes = [
+      { id: "Drawing", group: 0 },
+      { id: "Pencils", group: 0 },
+      { id: "Charcoal", group: 0 },
+      { id: "Ink", group: 0 },
+      { id: "Painting", group: 1 },
+      { id: "Watercolor", group: 1 },
+      { id: "Acrylic", group: 1 },
+      { id: "Oil", group: 1 },
+      { id: "Digital", group: 2 },
+      { id: "p5.js", group: 2 },
+      { id: "Procreate", group: 2 },
+      { id: "Photoshop", group: 2 },
+      { id: "3D", group: 3 },
+      { id: "Ceramics", group: 3 },
+      { id: "Sculpture", group: 3 },
+      { id: "Mixed Media", group: 4 },
+      { id: "Collage", group: 4 },
+      { id: "Fabric", group: 4 },
+      { id: "Color Theory", group: 5 },
+      { id: "Composition", group: 5 },
+    ];
+
+    let links = [
+      { source: "Drawing", target: "Pencils" },
+      { source: "Drawing", target: "Charcoal" },
+      { source: "Drawing", target: "Ink" },
+      { source: "Drawing", target: "Composition" },
+      { source: "Painting", target: "Watercolor" },
+      { source: "Painting", target: "Acrylic" },
+      { source: "Painting", target: "Oil" },
+      { source: "Painting", target: "Color Theory" },
+      { source: "Digital", target: "p5.js" },
+      { source: "Digital", target: "Procreate" },
+      { source: "Digital", target: "Photoshop" },
+      { source: "3D", target: "Ceramics" },
+      { source: "3D", target: "Sculpture" },
+      { source: "Mixed Media", target: "Collage" },
+      { source: "Mixed Media", target: "Fabric" },
+      { source: "Drawing", target: "Digital" },
+      { source: "Painting", target: "Digital" },
+      { source: "Color Theory", target: "Digital" },
+      { source: "Composition", target: "Painting" },
+      { source: "Sculpture", target: "Mixed Media" },
+      { source: "Ceramics", target: "Sculpture" },
+      { source: "p5.js", target: "Color Theory" },
+    ];
+
+    const svg = d3.select('#d3-canvas')
+      .append('svg')
+      .attr('width', w)
+      .attr('height', h);
+
+    const simulation = d3.forceSimulation(nodes)
+      .force('link', d3.forceLink(links).id(d => d.id).distance(80))
+      .force('charge', d3.forceManyBody().strength(-200))
+      .force('center', d3.forceCenter(w / 2, h / 2))
+      .force('collision', d3.forceCollide().radius(20));
+
+    const linkG = svg.append('g');
+    const nodeG = svg.append('g');
+    const labelG = svg.append('g');
+
+    let linkEl = linkG.selectAll('line').data(links).join('line')
+      .attr('stroke', '#ED8B00')
+      .attr('stroke-opacity', 0.25)
+      .attr('stroke-width', 1.5);
+
+    let nodeEl = nodeG.selectAll('circle').data(nodes).join('circle')
+      .attr('r', 14)
+      .attr('fill', d => colors[d.group])
+      .attr('stroke', '#EFE8D4')
+      .attr('stroke-width', 1.5)
+      .attr('cursor', 'grab')
+      .call(d3.drag()
+        .on('start', (e, d) => { if (!e.active) simulation.alphaTarget(0.3).restart(); d.fx = d.x; d.fy = d.y; })
+        .on('drag', (e, d) => { d.fx = e.x; d.fy = e.y; })
+        .on('end', (e, d) => { if (!e.active) simulation.alphaTarget(0); d.fx = null; d.fy = null; })
+      );
+
+    let labelEl = labelG.selectAll('text').data(nodes).join('text')
+      .text(d => d.id)
+      .attr('font-family', 'Space Mono, monospace')
+      .attr('font-size', '10px')
+      .attr('fill', '#EFE8D4')
+      .attr('text-anchor', 'middle')
+      .attr('dy', 28)
+      .attr('pointer-events', 'none');
+
+    simulation.on('tick', () => {
+      linkEl
+        .attr('x1', d => d.source.x).attr('y1', d => d.source.y)
+        .attr('x2', d => d.target.x).attr('y2', d => d.target.y);
+      nodeEl.attr('cx', d => d.x).attr('cy', d => d.y);
+      labelEl.attr('x', d => d.x).attr('y', d => d.y);
+    });
+
+    // Controls
+    document.getElementById('ctrl-charge').addEventListener('input', e => {
+      simulation.force('charge').strength(parseInt(e.target.value));
+      simulation.alpha(0.5).restart();
+    });
+
+    document.getElementById('ctrl-distance').addEventListener('input', e => {
+      simulation.force('link').distance(parseInt(e.target.value));
+      simulation.alpha(0.5).restart();
+    });
+
+    document.getElementById('btn-shuffle').addEventListener('click', () => {
+      nodes.forEach(n => {
+        n.x = Math.random() * w;
+        n.y = Math.random() * h;
+      });
+      simulation.alpha(1).restart();
+    });
+
+    // Resize
+    window.addEventListener('resize', () => {
+      const nw = container.offsetWidth;
+      svg.attr('width', nw);
+      simulation.force('center', d3.forceCenter(nw / 2, h / 2));
+      simulation.alpha(0.3).restart();
+    });
+  </script>
+</body>
+</html>

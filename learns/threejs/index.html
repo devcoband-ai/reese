@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Three.js - Learns - Reese Highman</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="../../assets/favicon.svg">
+  <link rel="stylesheet" href="../learns.css">
+</head>
+<body>
+
+  <nav class="learns-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-home">← Portfolio</a>
+      <a href="/learns/" class="nav-title">LEARNS</a>
+    </div>
+    <div class="nav-right">
+      <a href="#demo">Demo</a>
+      <a href="#code">Code</a>
+      <a href="#bridge">Connection</a>
+    </div>
+  </nav>
+
+  <div class="demo-page">
+    <header class="page-hero" style="padding-left:0;padding-right:0;text-align:left;">
+      <p class="demo-meta">CREATIVE / VISUAL</p>
+      <h1 style="background:linear-gradient(135deg, var(--color-accent-3), var(--color-accent-2));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">Three.js</h1>
+      <p class="demo-description">Three.js is JavaScript's gateway to 3D. It takes the browser's built-in WebGL rendering (which is powerful but brutally complex to use raw) and wraps it in an approachable API. You create scenes, add lights, place objects, and move a camera around... all in code. Think of it like p5.js, but in three dimensions instead of two.</p>
+    </header>
+
+    <section class="demo-section">
+      <h2>What People Make With It</h2>
+      <ul class="examples-list">
+        <li>Interactive 3D product showcases for brands</li>
+        <li>Browser-based games and virtual worlds</li>
+        <li>Data visualizations in three dimensions</li>
+        <li>Digital art installations and generative sculpture</li>
+        <li>Award-winning websites like <a href="https://bruno-simon.com" target="_blank">Bruno Simon's portfolio</a> (you drive a car around his resume)</li>
+      </ul>
+    </section>
+
+    <section id="demo" class="demo-section">
+      <h2>Try It: Digital Sculpture</h2>
+      <p style="color:var(--color-text-muted);margin-bottom:1rem;">Click and drag to orbit. Scroll to zoom. Use sliders to morph the shape.</p>
+
+      <div class="demo-container">
+        <div class="demo-container-header">
+          <div class="demo-dots"><span></span><span></span><span></span></div>
+          <span>sculpture.js</span>
+        </div>
+        <div class="demo-canvas">
+          <div class="three-container" id="three-canvas"></div>
+        </div>
+        <div class="demo-controls">
+          <div class="control-group">
+            <label>Complexity</label>
+            <input type="range" id="ctrl-detail" min="1" max="6" value="3" step="1">
+          </div>
+          <div class="control-group">
+            <label>Distortion</label>
+            <input type="range" id="ctrl-distort" min="0" max="2" value="0.5" step="0.05">
+          </div>
+          <div class="control-group">
+            <label>Color Shift</label>
+            <input type="range" id="ctrl-color" min="0" max="1" value="0.5" step="0.01">
+          </div>
+          <div class="control-group">
+            <label>Wireframe</label>
+            <input type="checkbox" id="ctrl-wire">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="code" class="demo-section">
+      <h2>The Code</h2>
+      <div class="code-block">
+        <div class="code-block-header">
+          <span>sculpture.js</span>
+        </div>
+        <pre><code><span class="cm">// Create the scene, camera, and renderer</span>
+<span class="kw">const</span> scene = <span class="kw">new</span> THREE.<span class="fn">Scene</span>();
+<span class="kw">const</span> camera = <span class="kw">new</span> THREE.<span class="fn">PerspectiveCamera</span>(<span class="num">60</span>, w / h, <span class="num">0.1</span>, <span class="num">100</span>);
+camera.position.<span class="fn">set</span>(<span class="num">0</span>, <span class="num">0</span>, <span class="num">4</span>);
+
+<span class="kw">const</span> renderer = <span class="kw">new</span> THREE.<span class="fn">WebGLRenderer</span>({ antialias: <span class="num">true</span> });
+renderer.<span class="fn">setSize</span>(w, h);
+
+<span class="cm">// Create the geometry (an icosahedron we'll distort)</span>
+<span class="kw">let</span> geo = <span class="kw">new</span> THREE.<span class="fn">IcosahedronGeometry</span>(<span class="num">1.5</span>, detail);
+
+<span class="cm">// Distort each vertex using noise</span>
+<span class="kw">const</span> positions = geo.attributes.position;
+<span class="kw">for</span> (<span class="kw">let</span> i = <span class="num">0</span>; i < positions.count; i++) {
+  <span class="kw">const</span> v = <span class="kw">new</span> THREE.<span class="fn">Vector3</span>().<span class="fn">fromBufferAttribute</span>(positions, i);
+  <span class="kw">const</span> noise = <span class="fn">simplex3</span>(v.x * <span class="num">2</span>, v.y * <span class="num">2</span>, time);
+  v.<span class="fn">multiplyScalar</span>(<span class="num">1</span> + noise * distortion);
+  positions.<span class="fn">setXYZ</span>(i, v.x, v.y, v.z);
+}
+
+<span class="cm">// Material with shifting colors</span>
+<span class="kw">const</span> mat = <span class="kw">new</span> THREE.<span class="fn">MeshStandardMaterial</span>({
+  color: <span class="kw">new</span> THREE.<span class="fn">Color</span>().<span class="fn">setHSL</span>(colorShift, <span class="num">0.7</span>, <span class="num">0.5</span>),
+  roughness: <span class="num">0.3</span>,
+  metalness: <span class="num">0.6</span>,
+  wireframe: showWireframe,
+  flatShading: <span class="num">true</span>
+});
+
+<span class="cm">// Lights</span>
+scene.<span class="fn">add</span>(<span class="kw">new</span> THREE.<span class="fn">AmbientLight</span>(<span class="num">0x404040</span>));
+<span class="kw">const</span> light = <span class="kw">new</span> THREE.<span class="fn">PointLight</span>(<span class="num">0xffffff</span>, <span class="num">1.5</span>);
+light.position.<span class="fn">set</span>(<span class="num">5</span>, <span class="num">5</span>, <span class="num">5</span>);
+scene.<span class="fn">add</span>(light);
+
+<span class="cm">// Animate</span>
+<span class="kw">function</span> <span class="fn">animate</span>() {
+  <span class="fn">requestAnimationFrame</span>(animate);
+  mesh.rotation.y += <span class="num">0.005</span>;
+  renderer.<span class="fn">render</span>(scene, camera);
+}</code></pre>
+      </div>
+    </section>
+
+    <section id="bridge" class="bridge-section">
+      <h3>How It Connects to p5.js</h3>
+      <p>In p5.js, you think about a canvas, shapes, colors, and a draw loop that runs every frame. Three.js works the same way, just with an extra dimension. Instead of <code>ellipse(x, y, w, h)</code> you have meshes and geometries. Instead of <code>fill()</code> you have materials. The animation loop? Same concept as <code>draw()</code>, just called <code>requestAnimationFrame()</code>. If you can think in p5.js, you can think in Three.js. You already understand the mental model.</p>
+    </section>
+  </div>
+
+  <footer class="learns-footer">
+    <p><a href="/learns/">← Back to Learns</a> · <a href="/">Portfolio</a></p>
+  </footer>
+
+  <!-- Three.js + OrbitControls from CDN -->
+  <script type="importmap">
+  {
+    "imports": {
+      "three": "https://cdn.jsdelivr.net/npm/three@0.170.0/build/three.module.js",
+      "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.170.0/examples/jsm/"
+    }
+  }
+  </script>
+  <script type="module">
+    import * as THREE from 'three';
+    import { OrbitControls } from 'three/addons/controls/OrbitControls.js';
+
+    const container = document.getElementById('three-canvas');
+    const w = container.offsetWidth;
+    const h = 450;
+
+    // Scene setup
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0x1a0008);
+
+    const camera = new THREE.PerspectiveCamera(60, w / h, 0.1, 100);
+    camera.position.set(0, 0, 4);
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    renderer.setSize(w, h);
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    container.appendChild(renderer.domElement);
+
+    const controls = new OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+    controls.dampingFactor = 0.05;
+
+    // Lights
+    scene.add(new THREE.AmbientLight(0x404040));
+    const light1 = new THREE.PointLight(0xffffff, 150);
+    light1.position.set(5, 5, 5);
+    scene.add(light1);
+    const light2 = new THREE.PointLight(0xF9423A, 80);
+    light2.position.set(-5, -3, 2);
+    scene.add(light2);
+
+    // Simple 3D noise
+    function noise3D(x, y, z) {
+      return Math.sin(x * 1.7 + z * 0.3) * Math.cos(y * 2.1 + z * 0.7) * Math.sin(x * 0.8 + y * 1.3 + z * 0.5);
+    }
+
+    // State
+    let detail = 3, distortion = 0.5, colorShift = 0.5, showWireframe = false;
+    let mesh, originalPositions;
+
+    function buildMesh() {
+      if (mesh) scene.remove(mesh);
+      const geo = new THREE.IcosahedronGeometry(1.5, detail);
+      originalPositions = geo.attributes.position.array.slice();
+      const mat = new THREE.MeshStandardMaterial({
+        color: new THREE.Color().setHSL(colorShift, 0.7, 0.5),
+        roughness: 0.3,
+        metalness: 0.6,
+        wireframe: showWireframe,
+        flatShading: true
+      });
+      mesh = new THREE.Mesh(geo, mat);
+      scene.add(mesh);
+    }
+    buildMesh();
+
+    // Controls
+    document.getElementById('ctrl-detail').addEventListener('input', e => {
+      detail = parseInt(e.target.value);
+      buildMesh();
+    });
+    document.getElementById('ctrl-distort').addEventListener('input', e => {
+      distortion = parseFloat(e.target.value);
+    });
+    document.getElementById('ctrl-color').addEventListener('input', e => {
+      colorShift = parseFloat(e.target.value);
+      mesh.material.color.setHSL(colorShift, 0.7, 0.5);
+    });
+    document.getElementById('ctrl-wire').addEventListener('change', e => {
+      showWireframe = e.target.checked;
+      mesh.material.wireframe = showWireframe;
+    });
+
+    // Animation
+    let time = 0;
+    function animate() {
+      requestAnimationFrame(animate);
+      time += 0.01;
+
+      if (mesh && originalPositions) {
+        const pos = mesh.geometry.attributes.position;
+        for (let i = 0; i < pos.count; i++) {
+          const ox = originalPositions[i * 3];
+          const oy = originalPositions[i * 3 + 1];
+          const oz = originalPositions[i * 3 + 2];
+          const n = noise3D(ox * 2, oy * 2, time);
+          const scale = 1 + n * distortion;
+          pos.setXYZ(i, ox * scale, oy * scale, oz * scale);
+        }
+        pos.needsUpdate = true;
+        mesh.geometry.computeVertexNormals();
+      }
+
+      mesh.rotation.y += 0.003;
+      mesh.rotation.x += 0.001;
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Resize
+    window.addEventListener('resize', () => {
+      const nw = container.offsetWidth;
+      camera.aspect = nw / h;
+      camera.updateProjectionMatrix();
+      renderer.setSize(nw, h);
+    });
+  </script>
+</body>
+</html>

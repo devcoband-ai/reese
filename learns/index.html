@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Learns - Reese Highman</title>
+  <meta name="description" content="Reese Highman explores the JavaScript ecosystem, from its wild history to the creative tools that make art in the browser.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg">
+  <link rel="stylesheet" href="learns.css">
+</head>
+<body>
+
+  <nav class="learns-nav">
+    <div class="nav-left">
+      <a href="/" class="nav-home">← Portfolio</a>
+      <a href="/learns/" class="nav-title">LEARNS</a>
+    </div>
+    <div class="nav-right">
+      <a href="#timeline">The Story</a>
+      <a href="#landscape">The Landscape</a>
+    </div>
+  </nav>
+
+  <header class="page-hero">
+    <h1>The JavaScript Universe</h1>
+    <p class="subtitle">CONTEXT FOR THE CREATIVE CODER</p>
+    <p class="intro-text">You're learning p5.js in class. But p5.js doesn't exist in a vacuum. It's part of a massive, wild, sometimes chaotic ecosystem called JavaScript. Here's the story of how we got here, and a map of the neighborhood you're moving into.</p>
+  </header>
+
+  <main>
+    <!-- ==================== SECTION A: TIMELINE ==================== -->
+    <section id="timeline">
+      <div class="section-header">
+        <h2>The JavaScript Story</h2>
+        <p>From a 10-day hack job to the most popular programming language on Earth.</p>
+      </div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">1995</div>
+          <div class="timeline-title">Born in 10 Days</div>
+          <p class="timeline-text">Brendan Eich, a developer at Netscape, writes the first version of JavaScript in literally 10 days. Not 10 months. Ten. Days. They called it "Mocha" at first, then "LiveScript," then slapped on "JavaScript" because Java was the hot language and they wanted to ride the hype. It was a marketing stunt. The name still confuses people 30 years later.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">1996 - 1999</div>
+          <div class="timeline-title">The Browser Wars</div>
+          <p class="timeline-text">Netscape vs. Internet Explorer. Microsoft reverse-engineers JavaScript and makes their own version called JScript. Every browser does things differently. Writing code that works everywhere is a nightmare. Developers pull their hair out. The web is ugly, buggy, and wonderful.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2001 - 2004</div>
+          <div class="timeline-title">The Dark Ages</div>
+          <p class="timeline-text">"Real programmers" look down on JavaScript. It's considered a toy language, not worthy of serious work. Meanwhile, Flash dominates the creative web. Want to make something visual and interactive? You use Flash. JavaScript is mostly used for annoying pop-up ads and dropdown menus. Not exactly prestigious.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2005</div>
+          <div class="timeline-title">The AJAX Revolution</div>
+          <p class="timeline-text">Google Maps launches, and everyone's jaw drops. A full interactive map... running in a browser... with no page reloads? This is built with a technique called AJAX, and it proves that JavaScript can build real applications. Not just pop-ups. Actual software. The perception shifts overnight.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2006 - 2010</div>
+          <div class="timeline-title">jQuery and Growing Up</div>
+          <p class="timeline-text">jQuery arrives and makes JavaScript way less painful to write. Instead of fighting browser differences, developers can write code once and have it work everywhere. JavaScript starts to be taken seriously. Libraries and frameworks start popping up. The ecosystem is growing.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2008</div>
+          <div class="timeline-title">Chrome's V8 Engine</div>
+          <p class="timeline-text">Google releases Chrome with the V8 JavaScript engine, and suddenly JavaScript is fast. Like, actually fast. This is a big deal. Before V8, running complex programs in JavaScript was sluggish. Now it can handle real computation. This one engine changes everything that comes next.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2009</div>
+          <div class="timeline-title">JavaScript Escapes the Browser</div>
+          <p class="timeline-text">Ryan Dahl takes Chrome's V8 engine and uses it to create Node.js, which lets you run JavaScript outside the browser. On servers. On your computer. Anywhere. JavaScript is no longer trapped in a little browser window. It can do basically anything now. The "toy language" can build backends, command-line tools, robots... whatever.</p>
+        </div>
+
+        <div class="timeline-item highlight">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2001 / 2013</div>
+          <div class="timeline-title">Art Meets the Browser</div>
+          <p class="timeline-text">In 2001, Ben Fry and Casey Reas create Processing, a Java-based tool that makes coding accessible to artists and designers. It changes how people think about creative coding. Then in 2013, Lauren McCarthy reimagines it for the web as p5.js. Same philosophy (code as a creative medium), but now it runs in any browser. No downloads, no installs. This is where you come in.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2015</div>
+          <div class="timeline-title">Modern JavaScript is Born</div>
+          <p class="timeline-text">ES6 (also called ES2015) lands, and JavaScript gets a massive upgrade. Arrow functions, classes, template literals, destructuring... the language finally feels modern. Most of the JavaScript you're learning in class uses ES6+ features. It's a way better language than the one Brendan Eich wrote in 10 days.</p>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot"></div>
+          <div class="timeline-year">2020s</div>
+          <div class="timeline-title">The Toy Language Won</div>
+          <p class="timeline-text">JavaScript is now the most widely used programming language in the world. It runs websites, mobile apps, servers, desktop apps, games, art installations, robots, and machine learning models. The language that "real programmers" laughed at? It outlasted most of them. Not bad for something written in 10 days.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==================== SECTION B: LANDSCAPE ==================== -->
+    <section id="landscape">
+      <div class="section-header">
+        <h2>The Landscape</h2>
+        <p>JavaScript is huge. Here's a map of the neighborhoods.</p>
+      </div>
+
+      <div class="ecosystem">
+
+        <!-- Creative / Visual -->
+        <div class="eco-category creative-hood">
+          <div class="eco-category-header">
+            <span class="eco-category-icon">🎨</span>
+            <span class="eco-category-name">Creative &amp; Visual</span>
+            <span class="eco-category-tag">YOUR NEIGHBORHOOD</span>
+          </div>
+          <div class="eco-cards">
+            <a href="/learns/p5js/" class="eco-card linked">
+              <span class="card-icon">✦</span>
+              <span class="card-name">p5.js</span>
+              <span class="card-desc">Generative art, sketches, creative coding</span>
+              <span class="card-arrow">Explore →</span>
+            </a>
+            <a href="/learns/threejs/" class="eco-card linked">
+              <span class="card-icon">🧊</span>
+              <span class="card-name">Three.js</span>
+              <span class="card-desc">3D graphics and interactive scenes</span>
+              <span class="card-arrow">Explore →</span>
+            </a>
+            <a href="/learns/d3js/" class="eco-card linked">
+              <span class="card-icon">📊</span>
+              <span class="card-name">D3.js</span>
+              <span class="card-desc">Data visualization and animated charts</span>
+              <span class="card-arrow">Explore →</span>
+            </a>
+            <a href="/learns/gsap/" class="eco-card linked">
+              <span class="card-icon">🎬</span>
+              <span class="card-name">GSAP</span>
+              <span class="card-desc">Pro-level animation engine</span>
+              <span class="card-arrow">Explore →</span>
+            </a>
+            <a href="/learns/tonejs/" class="eco-card linked">
+              <span class="card-icon">🎵</span>
+              <span class="card-name">Tone.js</span>
+              <span class="card-desc">Sound synthesis and music in the browser</span>
+              <span class="card-arrow">Explore →</span>
+            </a>
+            <a href="/learns/ml5js/" class="eco-card linked">
+              <span class="card-icon">🧠</span>
+              <span class="card-name">ml5.js</span>
+              <span class="card-desc">Machine learning for creative projects</span>
+              <span class="card-arrow">Explore →</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Frameworks -->
+        <div class="eco-category">
+          <div class="eco-category-header">
+            <span class="eco-category-icon">⚡</span>
+            <span class="eco-category-name">Frameworks</span>
+          </div>
+          <div class="eco-cards">
+            <div class="eco-card">
+              <span class="card-icon">⚛️</span>
+              <span class="card-name">React</span>
+              <span class="card-desc">Facebook's UI library. Powers Instagram, Netflix, Airbnb.</span>
+            </div>
+            <div class="eco-card">
+              <span class="card-icon">💚</span>
+              <span class="card-name">Vue</span>
+              <span class="card-desc">Approachable, versatile. Popular with indie devs.</span>
+            </div>
+            <div class="eco-card">
+              <span class="card-icon">🔥</span>
+              <span class="card-name">Svelte</span>
+              <span class="card-desc">Compiles away the framework. Feels like magic.</span>
+            </div>
+            <div class="eco-card">
+              <span class="card-icon">🅰️</span>
+              <span class="card-name">Angular</span>
+              <span class="card-desc">Google's full-featured framework. Enterprise scale.</span>
+            </div>
+            <div class="eco-card">
+              <span class="card-icon">▲</span>
+              <span class="card-name">Next.js</span>
+              <span class="card-desc">React supercharged. Full-stack web apps.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Package Ecosystem -->
+        <div class="eco-category">
+          <div class="eco-category-header">
+            <span class="eco-category-icon">📦</span>
+            <span class="eco-category-name">Package Ecosystem</span>
+          </div>
+          <div class="eco-cards">
+            <div class="eco-card">
+              <span class="card-icon">📦</span>
+              <span class="card-name">npm</span>
+              <span class="card-desc">2M+ packages. The world's largest software registry. Need it? Someone probably built it.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Runtime -->
+        <div class="eco-category">
+          <div class="eco-category-header">
+            <span class="eco-category-icon">🖥️</span>
+            <span class="eco-category-name">Runtime</span>
+          </div>
+          <div class="eco-cards">
+            <div class="eco-card">
+              <span class="card-icon">🌐</span>
+              <span class="card-name">Browser</span>
+              <span class="card-desc">Where it all started. Every browser speaks JS.</span>
+            </div>
+            <div class="eco-card">
+              <span class="card-icon">💻</span>
+              <span class="card-name">Node.js</span>
+              <span class="card-desc">JS on servers and your machine. Changed everything.</span>
+            </div>
+            <div class="eco-card">
+              <span class="card-icon">🦕</span>
+              <span class="card-name">Deno</span>
+              <span class="card-desc">Node's creator said "let me try again." Newer, cleaner.</span>
+            </div>
+            <div class="eco-card">
+              <span class="card-icon">🖼️</span>
+              <span class="card-name">Electron</span>
+              <span class="card-desc">Build desktop apps with web tech. VS Code, Slack, Discord... all Electron.</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tooling -->
+        <div class="eco-category">
+          <div class="eco-category-header">
+            <span class="eco-category-icon">🛠️</span>
+            <span class="eco-category-name">Tooling</span>
+          </div>
+          <div class="eco-cards">
+            <div class="eco-card">
+              <span class="card-icon">💜</span>
+              <span class="card-name">VS Code</span>
+              <span class="card-desc">The code editor. Free, powerful, built with JavaScript (yes, really).</span>
+            </div>
+            <div class="eco-card">
+              <span class="card-icon">🐙</span>
+              <span class="card-name">Git / GitHub</span>
+              <span class="card-desc">Version control. Save your work, collaborate, share.</span>
+            </div>
+            <div class="eco-card">
+              <span class="card-icon">✏️</span>
+              <span class="card-name">CodePen</span>
+              <span class="card-desc">Code playground in your browser. Great for experiments.</span>
+            </div>
+            <div class="eco-card">
+              <span class="card-icon">🎨</span>
+              <span class="card-name">OpenProcessing</span>
+              <span class="card-desc">Community for p5.js sketches. Thousands of examples.</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="insight-banner">
+        <p><strong>Here's the thing:</strong> p5.js isn't some isolated tool sitting off on its own. It's JavaScript. The same language powering Instagram, Netflix, and a million other things. Every function you write, every variable you create, every loop you build... those are JavaScript skills. You're learning one of the most in-demand programming languages on Earth, just through a creative lens. That's actually kind of incredible.</p>
+      </div>
+    </section>
+  </main>
+
+  <footer class="learns-footer">
+    <p>Made by <a href="/">Reese Highman</a> · 2025</p>
+  </footer>
+
+</body>
+</html>
